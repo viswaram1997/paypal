@@ -3,10 +3,13 @@ const ejs = require('ejs');
 const paypal = require('paypal-rest-sdk');
 
 paypal.configure({
-  'mode': 'sandbox', //sandbox or live
-  'client_id': 'AaU8tQfmz1_MFDTKuf84yYERXvdDt2ZFJVrxhNW_49DazF4A_F0VBuKyV5_nntyEdZqUa5Oq9ZBj65GV',
-  'client_secret': 'EAZ8aFDU4lHHLy1bQqULYWqznf3dBknXZW3AH__zFC0bUs8AGUyR6RNbm-jHvqtikX7PsSqMO5vxuvKm'
-});
+    'mode': 'live', //sandbox or live
+    'client_id': 'AfLh-4ZZeXSDfhphq_uy1U435R1rXHEr1VgqM-FwJ6hEA2wzGhou3YWdNVapxlllhU8KquSSuOxSUkH8',
+    'client_secret': 'EBj3xAI52GmhRbzlcvymzaH3AZVfic9m2NpWtDRytWaoysOXjmnAwUtHFR4ui7HaHUd-Js61aJOn8y7E'
+  });
+
+
+
 
 const app = express();
 
@@ -29,20 +32,22 @@ app.post('/pay', (req, res) => {
             "items": [{
                 "name": "Red Sox Hat",
                 "sku": "001",
-                "price": "25.00",
+                "price": "0.02",
                 "currency": "USD",
                 "quantity": 1
             }]
         },
         "amount": {
             "currency": "USD",
-            "total": "25.00"
+            "total": "0.02"
         },
         "description": "Hat for the best team ever"
     }]
 };
 
+// gateway.paymentMethod.find("token", function (err, paymentMethod) {console.log(paymentMethod,"viswa")});
 paypal.payment.create(create_payment_json, function (error, payment) {
+    console.log(payment);
   if (error) {
       throw error;
   } else {
@@ -65,7 +70,7 @@ app.get('/success', (req, res) => {
     "transactions": [{
         "amount": {
             "currency": "USD",
-            "total": "25.00"
+            "total": "0.02"
         }
     }]
   };
